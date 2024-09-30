@@ -1,0 +1,66 @@
+{% extends "webapp/base.html" %}
+
+{% block content %}
+<h3> Import Asset in database </h3> 
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+        <div>
+          <strong>{{message}}</strong>
+        </div>
+      </div>
+    {% endfor %}
+{% endif%}
+
+<form id="import-form" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="excel_file">Upload Excel file:</label>
+    <input type="file" name="excel_file" id="excel_file" accept=".xlsx">
+    <hr>
+    <br>
+    <button class="btn btn-primary w-25" type="submit">Import</button>
+</form>
+
+<script>
+    document.getElementById('excel_file').addEventListener('change', function(event) {
+        const fileName = event.target.files[0]?.name || 'No file selected';
+        Swal.fire({
+            title: 'File Selected',
+            text: `Selected file: ${fileName}`,
+            icon: 'info',
+            confirmButtonText: 'OK'
+        });
+    });
+
+    document.getElementById('import-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const fileInput = document.getElementById('excel_file');
+        
+        if (!fileInput.value) {
+            Swal.fire({
+                title: 'No File Selected',
+                text: 'Please select a file before submitting.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+        } else {
+            Swal.fire({
+                title: 'Confirm Import',
+                text: 'Do you want to proceed with importing the selected file?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, import it!',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit(); // Continue form submission if confirmed
+                }
+            });
+        }
+    });
+</script>
+{% endblock content %}

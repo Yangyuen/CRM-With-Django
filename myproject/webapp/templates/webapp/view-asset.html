@@ -1,0 +1,51 @@
+{% extends "webapp/base.html" %}
+
+{% block content %}
+
+<body>
+    <div class="card">
+        <h5>
+        <strong>
+            &nbsp; &nbsp;
+            Asset No. 
+            {{view_assets.asset_no|upper}}
+            &nbsp; - &nbsp;
+            {{view_assets.asset_name}}
+            {% comment %} {{view_assets.brand}} {% endcomment %}
+            
+            {{view_assets.model}}
+            
+        </strong>
+        </h5>
+        <hr>
+        <div class="card-body">
+            {% comment %} <p><strong> ID: </strong> {{view_assets.id}} </p> {% endcomment %}
+            {% comment %} <p><strong> Brand: </strong>  </p>
+            <p><strong> Model: </strong>  </p> {% endcomment %}
+            <p><strong> S/N: </strong> {{view_assets.serial_no}} </p>
+            <p><strong> Department: </strong> {{view_assets.department_name}} </p>
+            <p><strong> Owner: </strong> {{view_assets.owner_name}} </p>
+            <p><strong> Location: </strong> {{view_assets.location}} </p>
+            <p><strong> Status: </strong> {{view_assets.status}} </p>
+            <p><strong> Remark: </strong> {{view_assets.remark}} </p>
+
+            
+        </div>
+
+
+    </div>
+    <br>
+
+    <a class="btn btn-dark" href="{% url "dashboard" %}">Dashbord</a>
+    &nbsp;
+    <a class="btn btn-primary" href="{% url "update-assets" view_assets.id %}">Update</a>
+    &nbsp;
+    <a class="btn btn-danger" href="{% url "delete-assets" view_assets.id %}">Delete</a>
+
+
+
+</body>
+
+
+
+{% endblock content %}

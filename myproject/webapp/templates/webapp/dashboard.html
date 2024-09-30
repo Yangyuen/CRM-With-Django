@@ -1,0 +1,106 @@
+{% extends "webapp/base.html" %}
+
+{% block content %}
+
+    <h1> Welcome to the dashboard page! {{user}} </h1>
+
+    <hr>
+
+    {% comment %} <form method="GET" action="{% url 'dashboard' %}" id="searchForm">
+      <input type="text" name="q" placeholder="Search assets..." value="{{ query }}" onkeyup="submitForm()">
+    </form>
+
+    <hr> {% endcomment %}
+
+
+    <a class='btn btn-outline-primary btn-sm' href="{% url "create-assets" %}">
+        Create a new Assets
+    </a>
+
+    <hr>
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-danger">
+            <strong>{{message}}</strong>
+        </div>
+        {% endfor %}
+
+    {% endif %}
+    <table style="width:100%;" id="myTable" class="table table-light table-hover">
+        <thead class='table-dark'>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Asset No.</th>
+              <th scope="col">Asset Name</th>
+              {% comment %} <th scope="col">Brand</th> {% endcomment %}
+              <th scope="col">Model</th>
+              <th scope="col">S/N</th>
+              <th scope="col">Department</th>
+              <th scope="col">Owner</th>
+              <th scope="col">Location</th>
+              <th scope="col">Status</th>
+              <th scope="col">Action</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for assets in all_asset %}
+            <tr>
+              <td>{{assets.id}}</td>
+              <td>{{assets.asset_no}}</td>
+              <td>{{assets.asset_name}}</td>
+              {% comment %} <td>{{assets.brand}}</td> {% endcomment %}
+              <td>{{assets.model}}</td>
+              <td>{{assets.serial_no}}</td>
+              <td>{{assets.department_name}}</td>
+              <td>{{assets.owner_name}}</td>
+              <td>{{assets.location}}</td>
+              <td>
+                {% if assets.status == "Active" %}
+                  <span><i class="fa fa-circle" style="color: #26e600;"></i></span>
+                {% elif assets.status == "InActive" %}
+                  <span><i class="fa fa-circle" style="color: #ff0000;"></i></span>
+                {% else %}
+                    <span>{{ assets.status }}</span>
+                {% endif %}
+            </td>
+              <td>
+                <div class="d-flex gap-2">
+                  <a class="btn btn-warning" href="{% url "view-assets" assets.id %}">View</a>
+                  {% comment %} <a class="btn btn-danger" 
+                  href="{% url "delete-assets" assets.id %}"
+                  onclick="return confirm('ต้องการลบข้อมูล {{assets.asset_no}} {{assets.owner_name}} หรือไม่')"
+                  >Delete</a> {% endcomment %}
+                  <a class="btn btn-danger" 
+                    href="{% url "delete-assets" assets.id %}" 
+                    onclick="event.preventDefault(); confirmDelete('{{ assets.id }}', '{{ assets.asset_no }}', '{{ assets.owner_name }}')">
+                    Delete
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+
+      </table>
+      <script>
+        function confirmDelete(id, assetNo, ownerName) {
+            Swal.fire({
+                title: 'คุณแน่ใจหรือไม่?',
+                text: `ต้องการลบข้อมูล ${assetNo} ของ ${ownerName} หรือไม่?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ใช่, ลบเลย!',
+                cancelButtonText: 'ยกเลิก',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    window.location.href = `{% url 'delete-assets' 0 %}`.replace('0', id);
+                }
+            });
+        }
+        </script>
+ 
+     
+    
+{% endblock content %}

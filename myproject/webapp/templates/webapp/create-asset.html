@@ -1,0 +1,80 @@
+{% extends "webapp/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<body>
+    <div class="container bg-light shadow-md p-5 form-layout">
+        <h3> Create Assets </h3>
+
+        <h6> Start adding in the required details for your asset. </h6>
+        
+        <hr>
+       
+        <form autocomplete="off" method="POST">
+            {% csrf_token %}
+            {% comment %} <div class="row"> {% endcomment %}
+                <div class="row">
+                    <label for="asset_no">รหัสทรัพย์สิน<span style='color: red;'>*</span></label>
+                    <input required name="asset_no" type="text" class="form-control mt-2" aria-label="Asset No">
+                </div>
+                <div class="row">
+                    <label class="mt-2" for="asset_name">ชื่อทรัพย์สิน</label>
+                  <input required name="asset_name" type="text" class="form-control mt-2" aria-label="Asset Name">
+                </div>
+                <div class="row">
+                    <label class="mt-2" for="brand">ยี่ห้อ</label>
+                  <input required name="brand" type="text" class="form-control mt-2" aria-label="Brand">
+                </div>
+                <div class="row">
+                    <label class="mt-2" for="model">รุ่น</label>
+                  <input required name="model" type="text" class="form-control mt-2" aria-label="Model">
+                </div>
+                <div class="row">
+                    <label class="mt-2" for="serial_no">Serial Nubmer</label>
+                  <input required name="serial_no" type="text" class="form-control mt-2" aria-label="Serial Number">
+                </div>
+                <div class="row">
+                    <label class="mt-2" for="department_name">แผนก</label>
+                  <input required name="department_name" type="text" class="form-control mt-2" aria-label="Department">
+                </div>
+                <div class="row">
+                    <label class="mt-2" for="owner_name">ผู้ดูแล</label>
+                  <input required name="owner_name" type="text" class="form-control mt-2" aria-label="Owner">
+                </div>
+                <div class="row">
+                    <label class="mt-2" for="location">สถานที่</label>
+                  <input required name="location" type="text" class="form-control mt-2" aria-label="Location">
+                </div>
+                <div class="row">
+                    <label class="mt-2" for="status">สถานะ</label>
+                    <select class="form-control mt-2" name="status" aria-label="Status" >
+                      <option value="Active">Active</option>
+                      <option value="InActive">InActive</option>
+                    </select>
+                  
+                </div>
+                <div class="row">
+                    <label class="mt-2" for="remark">หมายเหตุ</label>
+                  <input name="remark" type="text" class="form-control mt-2" aria-label="Remark">
+                </div>
+            {% comment %} </div> {% endcomment %}
+            
+            {% comment %} <input type="submit" value="บันทึกข้อมูล" class="btn btn-success"> {% endcomment %}
+
+            {% comment %} {{form|crispy}} {% endcomment %}
+            <br>
+            <button type='submit' class='btn btn-primary w-100 btn-block p-2'> Create </button>
+
+        </form>
+
+        
+    </div>
+
+
+
+</body>
+
+
+{% endblock content %}
